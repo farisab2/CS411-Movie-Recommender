@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>Demo: TODO</title>
+        <title>Movie Recommendations</title>
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,8 +19,8 @@
     <body>
 
     <main role="main" class="container extra-bottom">
-      <h1 class="mt-5">TODO List Demo App</h1>
-      <p><mark>Do it now.</mark></p>
+      <h1 class="mt-5">Movie Recommendations</h1>
+      <!-- <p><mark>Rate different movies, and we'll give you Recommendations!</mark></p> -->
     </main>
     
 
@@ -61,8 +61,7 @@
     <table class="table">
         <thead>
         <tr>
-            <th class="task-id">#</th>
-            <th class="task">Task Name</th>
+            <th class="task">Movie</th>
             <th class="status">Status</th>
             <th class="update">Edit</th>
             <th class="update">Remove</th>
@@ -95,11 +94,17 @@
     </table>
     </div>
 
-
+    <!--Search Box-->
+    <form id = "searchbox" role = "search">
+        <input type="search" id="query" name = "q"
+        placeholder="Enter title of movie"
+        aria-label="Search through site content">
+        <button>Movie Search</button>
+    </form>
 
     <footer class="footer">
       <div class="container">
-            <p class="text-muted"><small>App developed for CS411 UIUC by @DataDawgs073!!</small></p>
+            <p class="text-muted"><small>App developed for CS411 UIUC by @DataDawgs073</small></p>
       </div>
     </footer>
   </body>
