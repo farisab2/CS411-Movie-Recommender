@@ -33,10 +33,10 @@ def init_connection_engine():
 db = init_connection_engine()
 
 #testing connection to GCP
-conn = db.connect()
-results = conn.execute("SELECT * FROM Genres;").fetchall()
-print([x for x in results])
-conn.close()
+#conn = db.connect()
+#results = conn.execute("SELECT * FROM Genres;").fetchall()
+#print([x for x in results])
+#conn.close()
 
 #remember to run (on Powershell), not in order:
 # $env:FLASK_APP = "app"

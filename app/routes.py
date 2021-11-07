@@ -50,4 +50,12 @@ def create():
 def homepage():
     """ returns rendered homepage """
     items = db_helper.fetch_todo()
+    #items = db_helper.search_movies()
     return render_template("index.html", items=items)
+
+@app.route("/")
+def search(searchTerm):
+    #returns movies searched by User from User Table
+    #result = db_helper.search_movies(searchTerm)
+    result = {'Title': 'Avatar', 'yearReleased': '2009', 'Director':'Them', 'Votes':560123, 'Score': 8.8}
+    return jsonify(result)
