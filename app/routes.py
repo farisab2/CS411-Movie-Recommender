@@ -49,22 +49,19 @@ def create():
 @app.route("/")
 def homepage():
     """ returns rendered homepage """
-    #items = db_helper.fetch_todo()
-    items = db_helper.search_movies()
-    return render_template("search.html", items=items)
+    items = db_helper.fetch_todo()
+    return render_template("index.html", items = items)
 
-@app.route("/search/<string:searchTerm>", methods=['GET'])
-def search():
+@app.route("/search.html/<string:searchTerm>")
+def search(searchTerm):
     #returns movies searched by User from User Table
-    #data = request.get_json()
-    #result = db_helper.search_movies(searchTerm)
-    
-    result = {'Title': 'Avatar', 'yearReleased': '2009', 'Director':'Them', 'Votes':560123, 'Score': 8.8}
-    return jsonify(result)
+    items = db_helper.search_movies(searchTerm)
+    return render_template("search.html", items = items)
 
 @app.route("/index.html/")
 def indexpage():
-    return render_template("index.html")
+    items = db_helper.fetch_todo()
+    return render_template("index.html", items = items)
 
 @app.route("/mylist.html/")
 def mylistpage():

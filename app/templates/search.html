@@ -21,9 +21,12 @@
 
   <body>
     <style>
+      body {
+        background-color: #d6c2bf;
+      }
 
       form {
-          background-color: #1b2f925e;
+          background-color: #4d69f35e;
           width: 300px;
           height: 40px;
           border-radius: 5px;
@@ -46,20 +49,12 @@
           color: #fff;
           opacity: 0.7; 
       }
-
-      svg {
-          color: #fff;
-          fill: currentColor;
-          width: 44px;
-          height: 44px;
-          padding: 10px;
-      }
-
+      
       button {
           all: unset;
           cursor: pointer;
-          width: 44px;
-          height: 44px;
+          width: 30px;
+          height: 30px;
       }
       
       table {
@@ -71,22 +66,32 @@
     <a href="/ratemovie.html">ratemovie.html</a>
     <a href="/recommendations.html">recommendations.html</a>
     <a href="/search.html">search.html</a>
-    <!-- <form role="search" id="searchbox" method="GET">
-      <input type="search" id="query" name="q" placeholder="Enter title of movie" aria-label="Search through site content">
+    
+    <form role="search" id="form">
+      <input type="text" id="query" name="q" placeholder="Enter title of movie" aria-label="Search through site content">
       <button onclick="myFunction()">
         <svg viewBox="0 0 1024 1024"><path class="path1" d="M848.471 928l-263.059-263.059c-48.941 36.706-110.118 55.059-177.412 55.059-171.294 0-312-140.706-312-312s140.706-312 312-312c171.294 0 312 140.706 312 312 0 67.294-24.471 128.471-55.059 177.412l263.059 263.059-79.529 79.529zM189.623 408.078c0 121.364 97.091 218.455 218.455 218.455s218.455-97.091 218.455-218.455c0-121.364-103.159-218.455-218.455-218.455-121.364 0-218.455 97.091-218.455 218.455z"></path></svg>
       </button>
-    </form> -->
+    </form>
 
-    <div class="container">    
+    <script>
+      const f = document.getElementById('form');
+      const lookFor = document.getElementById('query');
+      const server = 'http://127.0.0.1:5000/';
+      function myFunction() {
+        event.preventDefault();
+        window.location.href = "/search.html/" + lookFor.value;
+      }
+      //f.addEventListener('submit', myFunction);
+    </script>
+    <!-- <div class="container">    
         
-      <!-- Button trigger modal -->
       <div style="text-align: right;">
         <button type="button"
           class="btn btn-outline-info btn-sm"
           data-bs-toggle="modal"
           data-bs-target="#search-modal"
-          data-source="New Task">New Search
+          data-source="New Search">New Search
         </button>
       </div>
       
@@ -107,12 +112,12 @@
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button id="submit-task" type="button" class="btn btn-primary">Search</button>
+              <button id="submit-search" type="button" class="btn btn-primary" onclick="window.location.href='/search.html/Shrek'">Search</button>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     
     <!--Todo Table-->
     <div class="container table-responsive">          
@@ -121,7 +126,7 @@
             <tr>
                 <th class="Title">Title</th>
                 <th class="releaseYear">yearReleased</th>
-                <th class="Director">Director(s)</th>
+                <!-- <th class="Director">Director(s)</th> -->
                 <th class="numVotes">iMDB Votes</th>
                 <th class="averageRating">Average iMDB Score</th>
             </tr>
@@ -131,10 +136,10 @@
           {% for item in items %}
             <tr>
                 <td>{{item.Title}}</td>
-                <td>{{item.yearReleased}}</td>
-                <td>{{item.Director}}</td>
-                <td>{{item.Votes}}</td>
-                <td>{{item.Score}}</td>
+                <td>{{item.releaseYear}}</td>
+                <!-- <td>{{item.Director}}</td> -->
+                <td>{{item.numVotes}}</td>
+                <td>{{item.averageRating}}</td>
             </tr>
           {% endfor %}
         </tbody>

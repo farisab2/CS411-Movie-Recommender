@@ -79,38 +79,34 @@ def remove_task_by_id(task_id: int) -> None:
     conn.execute(query)
     conn.close() """
     pass
-#def search_movies(searchTerm: string) -> dict:
-def search_movies() -> dict:
-    """ result = []
+
+def search_movies(searchTerm: str) -> dict:
+    result = []
     conn = db.connect()
-    query = 'SELECT Title, yearReleased, numVotes, Score FROM Movies WHERE Title LIKE "{}" ORDER BY Title;'.format(searchTerm)
+    query = 'SELECT Title, releaseYear, numVotes, averageRating FROM Movies WHERE Title LIKE "{}"'.format(searchTerm)
     query_results =  conn.execute(query).fetchall()
     conn.close()
-    for row in query:
+    for row in query_results:
         item = {
-            "Title": row[0]
-            "releaseYear": row[1]
-            "Director": ""
-            "numVotes": row[2]
+            "Title": row[0],
+            "releaseYear": row[1],
+            "numVotes": row[2],
             "averageRating": row[3]
         }
-        result.append(item) """
-
+        result.append(item) 
+    """
     result = [
         {
             "Title": "Shrek",
-            "releaseYear": "2001",
-            "Director": "Me",
+            "yearReleased": "2001",
             "numVotes": 1010231,
             "averageRating": 9.4
         },
         {
             "Title": "Wall-E",
             "yearReleased": "2008",
-            "Director": "You",
-            "Votes": 93854,
+            "numVotes": 93854,
             "averageRating": 7.9
         }
-    ]
-    result = []
+    ]"""
     return result
