@@ -7,21 +7,51 @@ $(document).ready(function () {
         const content = button.data('content') // Extract info from data-* attributes
 
         const modal = $(this)
-        if (taskID === 'New Task') {
+        if (taskID === 'New Task') { // modal was clicked for add task
             modal.find('.modal-title').text(taskID)
             $('#task-form-display').removeAttr('taskID')
-        } else {
+        } else { //modal was clicked for edit task
             modal.find('.modal-title').text('Edit Task ' + taskID)
             $('#task-form-display').attr('taskID', taskID)
         }
 
-        if (content) {
+        if (content) { //modal was clicked for add task
             modal.find('.form-control').val(content);
-        } else {
+        } else { //modal was clicked for edit task
             modal.find('.form-control').val('');
         }
     })
 
+    $('#search-modal').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget) // Button that triggered the modal
+        const searchTerm = button.data('source') // Extract info from data-* attributes
+        
+        const modal = $(this)
+        
+        modal.find('.modal-title').text(searchTerm)
+        $('#task-form-display').removeAttr('searchTerm')
+        modal.find('.form-control').val('');
+    })
+
+    $('#submit-search').click(function () {
+        const searchTerm = $('#task-form-display').attr('taskID');
+        console.log($('#search-modal').find('.form-control').val())
+        $.ajax({
+            type: 'GET',
+            url: 'search/' + searchTerm,
+            contentType: 'application/json;charset=UTF-8',
+            data: JSON.stringify({
+                'searchTerm': $('#search-modal').find('.form-control').val()
+            }),
+            success: function (res) {
+                console.log(res.response)
+                location.reload();
+            },
+            error: function () {
+                console.log('Error');
+            }
+        });
+    });
 
     $('#submit-task').click(function () {
         const tID = $('#task-form-display').attr('taskID');
