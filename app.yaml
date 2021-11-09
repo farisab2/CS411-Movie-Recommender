@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 runtume: python38
 
 instance_class: F1
@@ -8,18 +7,7 @@ env_variables:
   MYSQL_PASSWORD: 'TeamDatadawgs073'
   MYSQL_DB: 'MovieClub'
   MYSQL_HOST: 35.239.236.9
-=======
-runtume: python38
-
-instance_class: F1
-
-env_variables:
-  MYSQL_USER: 'root'
-  MYSQL_PASSWORD: 'TeamDatadawgs073'
-  MYSQL_DB: 'MovieClub'
-  MYSQL_HOST: 35.239.236.9
-
+  
 handlers:
   url: /script
   static_dir: static/script
->>>>>>> 46ea771d8065aba83c8804042164903764f5988e

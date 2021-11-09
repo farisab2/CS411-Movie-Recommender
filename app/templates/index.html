@@ -1,237 +1,184 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <title>Movie Recommendations</title>
 
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <title>Movie Recommendations</title>
 
-        <link rel="icon" href="{{ url_for('static', filename='img/cs.ico') }}">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" href="{{ url_for('static', filename='img/cs.ico') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.css">
-        <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
+    <svg style="display: none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+</head>
+<style>
+    .star-rating input {
+        display: none;
+    }
 
-    </head>
+    .star-rating>label {
+        width: 30px;
+        height: 30px;
+        font-size: 30px;
+        color: orange;
+    }
 
-    <body>
+    .star-rating label::before {
+        content: "\2605";
+        position: absolute;
+        line-height: 26px;
+        color: orange;
+    }
 
-    <main role="main" class="container extra-bottom">
-      <h1 class="mt-5">Movie Recommendations</h1>
-      <p>Look no further for the best movies!</p>
-    </main>
-    
+    .star-rating {
+        display: flex;
+        align-items: center;
+        width: 160px;
+        flex-direction: row-reverse;
+    }
+</style>
 
-    <div class="container">    
-        
-        <!-- Button trigger modal -->
-        <div style="text-align: right;">
-            <button type="button"
-             class="btn btn-outline-info btn-sm"
-             data-bs-toggle="modal"
-             data-bs-target="#task-modal"
-             data-source="New Task">Add Task</button>
-        </div>
+<body>
 
-        
-        <div class="modal fade" id="task-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="Label">Add a task</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
 
-                <div class="modal-body">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="task-form-display">Task</span>
-                        <input type="text" class="form-control" placeholder="Description of task" aria-label="task-name" aria-describedby="basic-addon1">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button id="submit-task" type="button" class="btn btn-primary">Save changes</button>
-                </div>
-                </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark .h-100">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">MovieClub</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/search">Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/rate">My List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Recommendations</a>
+                    </li>
+                </ul>
             </div>
         </div>
 
-    </div>
-
-    <!--Todo Table-->
-    <div class="container table-responsive">          
-        <table class="table">
-            <thead>
-                <tr>
-                    <th class="task-id">#</th>
-                    <th class="task">Task Name</th>
-                    <th class="status">Status</th>
-                    <th class="update">Edit</th>
-                    <th class="update">Remove</th>
-                </tr>
-            </thead>
-
-            <tbody>
-            {% for item in items %}
-                <tr>
-                    <td>{{item.id}}</td>
-                    <td>{{item.task}}</td>
-
-                    {% if item.status == "In Progress" %}
-                        <td><button type="button" class="btn btn-outline-warning btn-sm state" data-source="{{item.id}}">{{item.status}}</button></td>
-                    {%endif%}
-                    {% if item.status == "Todo" %}
-                        <td><button type="button" class="btn btn-outline-secondary btn-sm state" data-source="{{item.id}}">{{item.status}}</button></td>
-                    {%endif%}
-                    {% if item.status == "Complete" %}
-                        <td><button type="button" class="btn btn-outline-success btn-sm state" data-source="{{item.id}}">{{item.status}}</button></td>
-                    {%endif%}
-                    
-                    <td><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#task-modal" data-source="{{item.id}}" data-content="{{item.task}}"><i class="fa fa-pen fa-1" aria-hidden="true"></i></button></td>
-
-                    <td><button class="btn btn-outline-secondary btn-sm remove" data-source="{{item.id}}" type="button"><i class="fa fa-trash fa-1" aria-hidden="true"></i></button></td>
-                </tr>
-            {% endfor %}
-            
-            </tbody>
-        </table>
-    </div>
-
-    <footer class="footer">
-      <div class="container">
-            <p class="text-muted"><small>App developed for CS411 UIUC by DataDawgs073</small></p>
-      </div>
-    </footer>
-  </body>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" 
-        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='script/modal.js') }}"></script>
-
-</html>
-=======
-<!DOCTYPE html>
-
-<html>
-    <head>
-        <title>Movie Recommendations</title>
-
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <link rel="icon" href="{{ url_for('static', filename='img/cs.ico') }}">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" 
-        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.css">
-        <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
-
-    </head>
-
-    <body>
-    
-
-    <main role="main" class="container extra-bottom">
-      <h1 class="mt-5">Movie Recommendations</h1>
-      <p>Look no further for the best movies!</p>
-    </main>
-    
-    <a href="/index.html">index.html</a>
-    <a href="/mylist.html">mylist.html</a>
-    <a href="/ratemovie.html">ratemovie.html</a>
-    <a href="/recommendations.html">recommendations.html</a>
-    <a href="/search.html">search.html</a>
-
-    <div class="container">    
-        
-        <!-- Button trigger modal -->
-        <div style="text-align: right;">
-            <button type="button"
-             class="btn btn-outline-info btn-sm"
-             data-bs-toggle="modal"
-             data-bs-target="#task-modal"
-             data-source="New Task">Add Task</button>
         </div>
+    </nav>
+    <div class="h-100 p-5 text-white bg-dark center">
+        <div class="container .d-flex align-items-center">
+            <h1 style="text-align: center;">MovieClub</h2>
+                <h5 style="text-align: center;">Look no further for the best movies!</p>
+        </div>
+    </div>
+    <div class="fluid-container">
+        <div class="row">
+            <div class="col">
+                <div class="card border-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Latest Movies</h5>
 
-        
-        <div class="modal fade" id="task-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="Label">Add a task</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+                        <ul class="list-group" id="list-tab" role="tablist">
+                            {% for movie in movies %}
+                            <li style="width: max-width;" class="list-group-item" id="list-profile-list">
+                                <div class="card">
+                                    <img class="card-img-top"
+                                        src="http://image.tmdb.org/t/p/w300{{movie.backdrop_path}}" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{movie.title}}</h5>
+                                        <p class="card-text">{{movie.overview}}</p>
 
-                <div class="modal-body">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="task-form-display">Task</span>
-                        <input type="text" class="form-control" placeholder="Description of task" aria-label="task-name" aria-describedby="basic-addon1">
+                                        <div class="star-rating" id="{{movie.id}}">
+                                            {% for i in range(10) %}
+                                            <input type="radio" name="stars" id="star-{{movie.id-i}}"
+                                                value="{{10-i}}" />
+                                            <label for="star-{{movie.id-i}}"></label>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                        </ul>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button id="submit-task" type="button" class="btn btn-primary">Save changes</button>
-                </div>
+            </div>
+            <div class="col">
+                <div class="card border-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Most Popular Movies</h5>
+
+                        <ul class="list-group" id="list-tab" role="tablist">
+                            {% for movie in movies %}
+                            <li style="width: max-width;" class="list-group-item" id="list-profile-list">
+                                <div class="card">
+                                    <img class="card-img-top"
+                                        src="http://image.tmdb.org/t/p/w300{{movie.backdrop_path}}" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{movie.title}}</h5>
+                                        <p class="card-text">{{movie.overview}}</p>
+
+                                        <div class="star-rating" id="{{movie.id}}">
+                                            {% for i in range(10) %}
+                                            <input type="radio" name="stars" id="star-{{movie.id-i}}"
+                                                value="{{10-i}}" />
+                                            <label for="star-{{movie.id-i}}"></label>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div class="col">
+                <div class="card border-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Top Rated Movies</h5>
 
-    </div>
+                        <ul class="list-group" id="list-tab" role="tablist">
+                            {% for movie in movies %}
+                            <li style="width: max-width;" class="list-group-item" id="list-profile-list">
+                                <div class="card">
+                                    <img class="card-img-top"
+                                        src="http://image.tmdb.org/t/p/w300{{movie.backdrop_path}}" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{movie.title}}</h5>
+                                        <p class="card-text">{{movie.overview}}</p>
 
-    <!--Todo Table-->
-    <div class="container table-responsive">          
-        <table class="table">
-            <thead>
-                <tr>
-                    <th class="task-id">#</th>
-                    <th class="task">Task Name</th>
-                    <th class="status">Status</th>
-                    <th class="update">Edit</th>
-                    <th class="update">Remove</th>
-                </tr>
-            </thead>
+                                        <div class="star-rating" id="{{movie.id}}">
+                                            {% for i in range(10) %}
+                                            <input type="radio" name="stars" id="star-{{movie.id-i}}"
+                                                value="{{10-i}}" />
+                                            <label for="star-{{movie.id-i}}"></label>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-            <tbody>
-            {% for item in items %}
-                <tr>
-                    <td>{{item.id}}</td>
-                    <td>{{item.task}}</td>
-
-                    {% if item.status == "In Progress" %}
-                        <td><button type="button" class="btn btn-outline-warning btn-sm state" data-source="{{item.id}}">{{item.status}}</button></td>
-                    {%endif%}
-                    {% if item.status == "Todo" %}
-                        <td><button type="button" class="btn btn-outline-secondary btn-sm state" data-source="{{item.id}}">{{item.status}}</button></td>
-                    {%endif%}
-                    {% if item.status == "Complete" %}
-                        <td><button type="button" class="btn btn-outline-success btn-sm state" data-source="{{item.id}}">{{item.status}}</button></td>
-                    {%endif%}
-                    
-                    <td><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#task-modal" data-source="{{item.id}}" data-content="{{item.task}}"><i class="fa fa-pen fa-1" aria-hidden="true"></i></button></td>
-
-                    <td><button class="btn btn-outline-secondary btn-sm remove" data-source="{{item.id}}" type="button"><i class="fa fa-trash fa-1" aria-hidden="true"></i></button></td>
-                </tr>
-            {% endfor %}
-            
-            </tbody>
-        </table>
-    </div>
 
     <footer class="footer">
-      <div class="container">
-            <p class="text-muted"><small>App developed for CS411 UIUC by DataDawgs073</small></p>
-      </div>
+        <div class="container">
+            <p class="text-muted" style="text-align: center;"><small>App developed for CS411 UIUC by
+                    DataDawgs073</small></p>
+        </div>
     </footer>
-  </body>
+</body>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" 
-        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='script/modal.js') }}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+    crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='script/modal.js') }}"></script>
 
 </html>
->>>>>>> 46ea771d8065aba83c8804042164903764f5988e

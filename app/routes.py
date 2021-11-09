@@ -51,8 +51,12 @@ def create():
 @app.route("/")
 def homepage():
     """ returns rendered homepage """
-    items = db_helper.fetch_todo()
-    return render_template("index.html", items=items)
+    #items = db_helper.top_rated_movies()
+    url = "https://api.themoviedb.org/3/discover/movie?api_key={}&page=3".format(os.environ.get("TMDB_API_KEY"))
+    response = urllib.request.urlopen(url)
+    data = response.read()
+    dict = json.loads(data)
+    return render_template("index.html", items=items, movies=dict["results"])
 
 @app.route("/rate")
 def ratings():
@@ -69,18 +73,10 @@ def search(searchTerm):
     items = db_helper.search_movies(searchTerm)
     return render_template("search.html", items = items)
 
-@app.route("/index.html/")
-def indexpage():
-    items = db_helper.fetch_todo()
-    return render_template("index.html", items = items)
 
 @app.route("/mylist.html/")
 def mylistpage():
     return render_template("mylist.html")
-
-@app.route("/ratemovie.html/")
-def ratemoviepage():
-    return render_template("ratemovie.html")
 
 @app.route("/search.html/")
 def searchpage():
