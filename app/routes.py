@@ -56,7 +56,7 @@ def homepage():
     response = urllib.request.urlopen(url)
     data = response.read()
     dict = json.loads(data)
-    return render_template("index.html", items=items, movies=dict["results"])
+    return render_template("index.html", movies=dict["results"])
 
 @app.route("/rate")
 def ratings():
