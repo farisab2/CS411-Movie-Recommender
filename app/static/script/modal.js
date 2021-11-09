@@ -22,22 +22,6 @@ $(document).ready(function () {
         }
     })
 
-    $('#search-modal').on('show.bs.modal', function (event) {
-        const button = $(event.relatedTarget) // Button that triggered the modal
-        const searchTerm = button.data('source') // Extract info from data-* attributes
-        
-        const modal = $(this)
-        
-        modal.find('.modal-title').text(searchTerm)
-        $('#task-form-display').removeAttr('searchTerm')
-        modal.find('.form-control').val('');
-    })
-
-    $('#submit-search').click(function () {
-        const searchTerm = $('#task-form-display').attr('taskID');
-        
-    });
-
     $('#submit-task').click(function () {
         const tID = $('#task-form-display').attr('taskID');
         console.log($('#task-modal').find('.form-control').val())
