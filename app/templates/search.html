@@ -22,11 +22,15 @@
   <body>
     <style>
       body {
-        background-color: #d6c2bf;
+        background-color: #ffffff;
+      }
+
+      footer {
+        background-color: #f5e6be5e;
       }
 
       form {
-          background-color: #4d69f35e;
+          background-color: #b3d685;
           width: 300px;
           height: 40px;
           border-radius: 5px;
@@ -77,47 +81,12 @@
     <script>
       const f = document.getElementById('form');
       const lookFor = document.getElementById('query');
-      const server = 'http://127.0.0.1:5000/';
+      // const server = 'http://127.0.0.1:5000/';
       function myFunction() {
         event.preventDefault();
         window.location.href = "/search.html/" + lookFor.value;
       }
-      //f.addEventListener('submit', myFunction);
     </script>
-    <!-- <div class="container">    
-        
-      <div style="text-align: right;">
-        <button type="button"
-          class="btn btn-outline-info btn-sm"
-          data-bs-toggle="modal"
-          data-bs-target="#search-modal"
-          data-source="New Search">New Search
-        </button>
-      </div>
-      
-      <div class="modal fade" id="search-modal" tabindex="-1" aria-labelledby="Label" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="Label">New Search</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body">
-              <div class="input-group mb-3">
-                <span class="input-group-text" id="task-form-display">Title</span>
-                <input type="text" class="form-control" placeholder="Enter title of movie" aria-label="task-name" aria-describedby="basic-addon1">
-              </div>
-            </div>
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button id="submit-search" type="button" class="btn btn-primary" onclick="window.location.href='/search.html/Shrek'">Search</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
     
     <!--Todo Table-->
     <div class="container table-responsive">          
@@ -148,7 +117,7 @@
 
     <footer class="footer">
       <div class="container">
-        <p class="text-muted"><small>Courtesy of https://pagedart.com/blog/how-to-add-a-search-bar-in-html/</small></p>
+        <p class="text-muted"><small>App developed for CS411 UIUC by DataDawgs073</small></p>
       </div>
     </footer>
   </body>

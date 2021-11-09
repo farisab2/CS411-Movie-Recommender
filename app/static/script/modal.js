@@ -22,7 +22,6 @@ $(document).ready(function () {
         }
     })
 
-
     $('#submit-task').click(function () {
         const tID = $('#task-form-display').attr('taskID');
         console.log($('#task-modal').find('.form-control').val())
