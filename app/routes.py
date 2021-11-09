@@ -52,20 +52,20 @@ def create():
 def homepage():
     """ returns rendered homepage """
     #items = db_helper.top_rated_movies()
-    url = "https://api.themoviedb.org/3/discover/movie?api_key={}&page=3".format(os.environ.get("TMDB_API_KEY"))
-    response = urllib.request.urlopen(url)
-    data = response.read()
-    dict = json.loads(data)
-    return render_template("index.html", movies=dict["results"])
+    # url = "https://api.themoviedb.org/3/discover/movie?api_key={}&page=3".format(os.environ.get("TMDB_API_KEY"))
+    # response = urllib.request.urlopen(url)
+    # data = response.read()
+    # dict = json.loads(data)
+    return render_template("index.html")
 
 @app.route("/rate")
 def ratings():
-    url = "https://api.themoviedb.org/3/discover/movie?api_key={}".format(os.environ.get("TMDB_API_KEY"))
-    response = urllib.request.urlopen(url)
-    data = response.read()
-    dict = json.loads(data)
+    # url = "https://api.themoviedb.org/3/discover/movie?api_key={}".format(os.environ.get("TMDB_API_KEY"))
+    # response = urllib.request.urlopen(url)
+    # data = response.read()
+    # dict = json.loads(data)
 
-    return render_template("ratemovie.html", movies=dict["results"]);
+    return render_template("ratemovie.html");
 
 @app.route("/search.html/<string:searchTerm>")
 def search(searchTerm):
