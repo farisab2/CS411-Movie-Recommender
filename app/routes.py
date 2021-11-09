@@ -52,7 +52,6 @@ def create():
 def homepage():
     """ returns rendered homepage """
     items = db_helper.fetch_todo()
-    #items = db_helper.search_movies()
     return render_template("index.html", items=items)
 
 @app.route("/rate")
@@ -64,9 +63,30 @@ def ratings():
 
     return render_template("ratemovie.html", movies=dict["results"]);
 
-@app.route("/")
+@app.route("/search.html/<string:searchTerm>")
 def search(searchTerm):
     #returns movies searched by User from User Table
-    #result = db_helper.search_movies(searchTerm)
-    result = {'Title': 'Avatar', 'yearReleased': '2009', 'Director':'Them', 'Votes':560123, 'Score': 8.8}
-    return jsonify(result)
+    items = db_helper.search_movies(searchTerm)
+    return render_template("search.html", items = items)
+
+@app.route("/index.html/")
+def indexpage():
+    items = db_helper.fetch_todo()
+    return render_template("index.html", items = items)
+
+@app.route("/mylist.html/")
+def mylistpage():
+    return render_template("mylist.html")
+
+@app.route("/ratemovie.html/")
+def ratemoviepage():
+    return render_template("ratemovie.html")
+
+@app.route("/search.html/")
+def searchpage():
+    return render_template("search.html")
+
+@app.route("/recommendations.html/")
+def recommendationspage():
+    return render_template("recommendations.html")
+
