@@ -83,8 +83,10 @@ def remove_task_by_id(task_id: int) -> None:
 def search_movies(searchTerm: str) -> dict:
     result = []
     conn = db.connect()
-    query = 'SELECT Title, releaseYear, numVotes, averageRating FROM Movies WHERE Title LIKE "{}"'.format(searchTerm)
-    query_results =  conn.execute(query).fetchall()
+    searchTerm = searchTerm.replace("%20", " ")
+    query = 'SELECT Title, releaseYear, numVotes, averageRating FROM Movies WHERE Title LIKE %s LIMIT 15'
+    args=['%' + searchTerm + '%']
+    query_results =  conn.execute(query,args).fetchall()
     conn.close()
     for row in query_results:
         item = {
