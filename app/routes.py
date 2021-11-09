@@ -2,7 +2,9 @@
 from flask import render_template, request, jsonify
 from app import app
 from app import database as db_helper
-
+import requests
+import os
+import urllib.request, json
 @app.route("/delete/<int:task_id>", methods=['POST'])
 def delete(task_id):
     """ recieved post requests for entry delete """
@@ -52,6 +54,15 @@ def homepage():
     items = db_helper.fetch_todo()
     #items = db_helper.search_movies()
     return render_template("index.html", items=items)
+
+@app.route("/rate")
+def ratings():
+    url = "https://api.themoviedb.org/3/discover/movie?api_key={}".format(os.environ.get("TMDB_API_KEY"))
+    response = urllib.request.urlopen(url)
+    data = response.read()
+    dict = json.loads(data)
+
+    return render_template("ratemovie.html", movies=dict["results"]);
 
 @app.route("/")
 def search(searchTerm):
