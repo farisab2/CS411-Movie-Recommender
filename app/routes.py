@@ -85,5 +85,11 @@ def searchpage():
 
 @app.route("/recommendations.html/")
 def recommendationspage():
-    return render_template("recommendations.html")
+    items = db_helper.fetchMovies()
+    return render_template("recommendations.html", items=items)
+
+@app.route("/recommendations2.html/")
+def recommendationspage2():
+    items = db_helper.fetchMoviesD()
+    return render_template("recommendations2.html", items = items)
 

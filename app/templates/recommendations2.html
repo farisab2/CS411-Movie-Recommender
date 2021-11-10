@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Movie Recommendations</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" href="{{ url_for('static', filename='img/cs.ico') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
+    <svg style="display: none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+</head>
+<style>
+    .star-rating input {
+        display: none;
+    }
+
+    .star-rating>label {
+        width: 30px;
+        height: 30px;
+        font-size: 30px;
+        color: orange;
+    }
+
+    .star-rating label::before {
+        content: "\2605";
+        position: absolute;
+        line-height: 26px;
+        color: orange;
+    }
+
+    .star-rating {
+        display: flex;
+        align-items: center;
+        width: 160px;
+        flex-direction: row-reverse;
+    }
+</style>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark .h-100">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">MovieClub</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/search">Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/rate">My List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/recommendations.html/">Recommendations</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        </div>
+    </nav>
+    <div class="p-1 text-white bg-dark center">
+        <div class="container .d-flex align-items-center">
+            <h1 style="text-align: center;">Recommendations</h2>
+                <div style="text-align: center;">
+                    <a href="/recommendations.html/" id = "recsInactive" class="button">Top Movie Recs</a>
+                    <span id = "recs" class="spacing">
+                        <a href="/recommendations2.html/" id = "recsActive" class="button">Director Based Recs</a>
+                    </span>
+                </div>
+ 
+        </div>
+    </div>
+
+
+    <article class="leaderboard align-items-center">
+        <main class="leaderboard__profiles align-items-center">
+
+
+
+            <!-- <script>
+                var x ="", i,y="";
+                for (i=0; i<=2; i++) {
+                    yt = items[i].Title
+                    yr = items[i].averageRating
+                    document.body.innerHTML +=  "<article id = 'mytest' class='leaderboard__profile align-items-center'> <img src='https://png.pngtree.com/png-clipart/20210115/ourmid/pngtree-video-camera-movie-clipart-cartoon-style-png-image_2736279.jpg' alt='Movie' class='leaderboard__picture'><span class='leaderboard__name'>'yt'</span><span class='leaderboard__value'>yr<span>/10</span></span>"
+                }
+
+            </script> -->
+
+
+            {% for item in items %}
+                <article class="leaderboard__profile align-items-center">
+                <img src="https://png.pngtree.com/png-clipart/20210115/ourmid/pngtree-video-camera-movie-clipart-cartoon-style-png-image_2736279.jpg" alt="Movie" class="leaderboard__picture">
+                <span class="leaderboard__name">"{{item.Title}}"</span>
+                <span class="leaderboard__value">{{item.averageRating}}<span>/10</span></span>
+            </article>
+            {% endfor %}
+
+            <!-- <article class="leaderboard__profile align-items-center">
+            <img src="https://png.pngtree.com/png-clipart/20210115/ourmid/pngtree-video-camera-movie-clipart-cartoon-style-png-image_2736279.jpg" alt="Movie" class="leaderboard__picture">
+            <span class="leaderboard__name">"{{items[1].Title}}"</span>
+            <span class="leaderboard__value">{{items[1].averageRating}}<span>/10</span></span>
+            </article>
+
+            <article class="leaderboard__profile align-items-center">
+            <img src="https://png.pngtree.com/png-clipart/20210115/ourmid/pngtree-video-camera-movie-clipart-cartoon-style-png-image_2736279.jpg" alt="Movie" class="leaderboard__picture">
+            <span class="leaderboard__name">"{{items[2].Title}}"</span>
+            <span class="leaderboard__value">{{items[2].averageRating}}<span>/10</span></span>
+            </article>
+
+            <article class="leaderboard__profile align-items-center">
+            <img src="https://png.pngtree.com/png-clipart/20210115/ourmid/pngtree-video-camera-movie-clipart-cartoon-style-png-image_2736279.jpg" alt="Movie" class="leaderboard__picture">
+            <span class="leaderboard__name">"{{items[0].Title}}"</span>
+            <span class="leaderboard__value">{{items[0].averageRating}}<span>/10</span></span>
+            </article>
+
+            <article class="leaderboard__profile align-items-center">
+            <img src="https://png.pngtree.com/png-clipart/20210115/ourmid/pngtree-video-camera-movie-clipart-cartoon-style-png-image_2736279.jpg" alt="Movie" class="leaderboard__picture">
+            <span class="leaderboard__name">"{{items[0].Title}}"</span>
+            <span class="leaderboard__value">{{items[0].averageRating}}<span>/10</span></span>
+            </article>
+
+            <article class="leaderboard__profile align-items-center">
+            <img src="https://png.pngtree.com/png-clipart/20210115/ourmid/pngtree-video-camera-movie-clipart-cartoon-style-png-image_2736279.jpg" alt="Movie" class="leaderboard__picture">
+            <span class="leaderboard__name">"{{items[0].Title}}"</span>
+            <span class="leaderboard__value">{{items[0].averageRating}}<span>/10</span></span>
+            </article>
+
+            <article class="leaderboard__profile align-items-center">
+            <img src="https://png.pngtree.com/png-clipart/20210115/ourmid/pngtree-video-camera-movie-clipart-cartoon-style-png-image_2736279.jpg" alt="Movie" class="leaderboard__picture">
+            <span class="leaderboard__name">"{{items[0].Title}}"</span>
+            <span class="leaderboard__value">{{items[0].averageRating}}<span>/10</span></span>
+            </article> -->
+            
+
+        </main>
+        <div style ="text-align: center; padding-bottom: 1%;";>
+            <a href="/recommendations.html/" id = "nextprev" class="button">&#8249;</a>
+            <a href="/recommendations.html/" id = "nextprev" class="button">&#8250;</a>
+        </div>
+    </article>
+
+
+    
+
+
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted" style="text-align: center;"><small>App developed for CS411 UIUC by
+                    DataDawgs073</small></p>
+        </div>
+    </footer>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+    crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='script/modal.js') }}"></script>
+
+</html>
