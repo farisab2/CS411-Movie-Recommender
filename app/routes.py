@@ -49,19 +49,22 @@ def create():
     return jsonify(result)
 
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def homepage():
-    """ returns rendered homepage """
-    items = db_helper.movies()
-    #items = db_helper.top_rated_movies()
-    dict = []
-    for item in items:
-        url = "https://api.themoviedb.org/3/search/movie?api_key=b00e0a420be5aa6607c716ffa4320dce&query={}".format(urllib.parse.quote_plus(item["Title"]))
-        response = urllib.request.urlopen(url)
-        data = response.read()
-        dict.append(json.loads(data))
-    print(dict, file=sys.stdout)
-    return render_template("index.html", items = items, movies = dict[0]["results"])
+    if request.method == 'POST':
+        if request.form['10'] == 10:
+            db_helper.insert_rating() 
+    else:
+        items = db_helper.movies()
+        dict = []
+        for item in items:
+            url = "https://api.themoviedb.org/3/search/movie?api_key=b00e0a420be5aa6607c716ffa4320dce&query={}".format(urllib.parse.quote_plus(item["Title"]))
+            response = urllib.request.urlopen(url)
+            data = response.read()
+            dict.append(json.loads(data))
+        
+        print(dict, file=sys.stdout)
+        return render_template("index.html", items = items, movies = dict)
 
 @app.route("/rate")
 def ratings():

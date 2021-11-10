@@ -114,7 +114,7 @@ def search_movies(searchTerm: str) -> dict:
     result = []
     conn = db.connect()
     searchTerm = searchTerm.replace("%20", " ")
-    query = 'SELECT Title, releaseYear, numVotes, averageRating FROM Movies WHERE Title LIKE %s LIMIT 15'
+    query = 'SELECT Title, releaseYear, numVotes, averageRating FROM Movies WHERE Title LIKE %s ORDER BY numVotes DESC LIMIT 15'
     args=['%' + searchTerm + '%']
     query_results =  conn.execute(query,args).fetchall()
     conn.close()
@@ -165,3 +165,42 @@ def insert_rating(userID: str, score: float, movieID: str):
     conn = db.connect()
     query = 'INSERT INTO Reviews (userID, movieID, Score) VALUES ({}.{}.{}) ON DUPLICATE KEY UPDATE userID = {}'.format(userID, movieID, score, userID)
 
+    result.append(item)
+    
+def fetchMovies()-> dict:
+    result = []
+    conn = db.connect()
+    query = 'SELECT r.userID, r.movieID, m.Title, r.Score, m.releaseYear, m.averageRating, m.NumVotes FROM Reviews AS r INNER JOIN Movies AS m ON r.movieID = m.movieID WHERE (r.UserID = "001" AND r.Score > 7) AND r.movieID IN (SELECT movieID FROM Reviews GROUP BY movieID HAVING AVG(Score) > 7) ORDER BY m.averageRating DESC'
+    query_results = conn.execute(query).fetchall()
+    conn.close()
+    for row in query_results:
+        item = {
+            "userID": row[0],
+            "movieID": row[1],
+            "Title": row[2],
+            "Score": row[3],
+            "releaseYear": row[4],
+            "averageRating": row[5],
+            "NumVotes": row[6]
+            
+        }
+        result.append(item)
+    return result
+
+def fetchMoviesD()-> dict:
+    result = []
+    conn = db.connect()
+    query = 'SELECT * FROM Movies WHERE movieID IN (SELECT DISTINCT di.movieID FROM DirectorMapping di WHERE di.Director in (SELECT d.Director FROM DirectorMapping d INNER JOIN Reviews r ON d.movieID = r.movieID GROUP BY d.Director HAVING AVG(r.score) > 6)) ORDER BY averageRating DESC'
+    query_results = conn.execute(query).fetchall()
+    conn.close()
+    for row in query_results:
+        item = {
+            "movieID": row[0],
+            "Title": row[1],
+            "releaseYear": row[2],
+            "averageRating": row[3],
+            "NumVotes": row[4]
+            
+        }
+        result.append(item)
+    return result

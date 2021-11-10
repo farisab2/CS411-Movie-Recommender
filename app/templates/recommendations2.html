@@ -71,11 +71,11 @@
     </nav>
     <div class="p-1 text-white bg-dark center">
         <div class="container .d-flex align-items-center">
-            <h1 style="text-align: center; padding-bottom: 2%;">Recommendations</h2>
+            <h1 style="text-align: center;">Recommendations</h2>
                 <div style="text-align: center;">
-                    <a href="/recommendations.html/" id = "recsActive" class="button">Top Movie Recs</a>
+                    <a href="/recommendations.html/" id = "recsInactive" class="button">Top Movie Recs</a>
                     <span id = "recs" class="spacing">
-                        <a style = "margin-bottom: 2.5%;"href="/recommendations2.html/" id = "recsInactive" class="button">Director Based Recs</a>
+                        <a href="/recommendations2.html/" id = "recsActive" class="button">Director Based Recs</a>
                     </span>
                 </div>
  
@@ -83,22 +83,18 @@
     </div>
 
 
-
-
-
     <article class="leaderboard align-items-center">
-        <main id = "demo" class="leaderboard__profiles align-items-center">
+        <main class="leaderboard__profiles align-items-center">
 
-            <!-- <script type="text/javascript">
-                var x ="", i,yt="", yr="sadas", g = 0;
-                 for (i=g; i<=2; i++) {
-                    yt = "{{items}}"
 
-                //     yr = items[i].averageRating
-                     x = x + "<article class='leaderboard__profile align-items-center'> <img src='https://png.pngtree.com/png-clipart/20210115/ourmid/pngtree-video-camera-movie-clipart-cartoon-style-png-image_2736279.jpg' alt='Movie' class='leaderboard__picture'><span class='leaderboard__name'>'yt'</span><span class='leaderboard__value'>yr<span>/10</span></span></article>"      
-                 }
-                document.getElementById("demo").innerHTML = yt;
 
+            <!-- <script>
+                var x ="", i,y="";
+                for (i=0; i<=2; i++) {
+                    yt = items[i].Title
+                    yr = items[i].averageRating
+                    document.body.innerHTML +=  "<article id = 'mytest' class='leaderboard__profile align-items-center'> <img src='https://png.pngtree.com/png-clipart/20210115/ourmid/pngtree-video-camera-movie-clipart-cartoon-style-png-image_2736279.jpg' alt='Movie' class='leaderboard__picture'><span class='leaderboard__name'>'yt'</span><span class='leaderboard__value'>yr<span>/10</span></span>"
+                }
 
             </script> -->
 
