@@ -4,18 +4,47 @@ import random
 
 def fetch_todo() -> dict:
 
-    todo_list = [
-        {
-            "id": 1,
-            "task": "test1",
-            "status": "Todo"
-        },
-        {
-            "id": 2,
-            "task": "test1",
-            "status": "Todo"
+    conn = db.connect()
+    query_results = conn.execute("SELECT * FROM Movies;").fetchall()
+    conn.close()
+    todo_list = []
+    x = 0
+    for result in query_results:
+        print (result)
+        item = {
+            "id": result[0],
+            "task": result[1],
+            "status": result[2]
         }
-    ]
+        todo_list.append(item)
+        if (x > 10):
+            break
+        x = x + 1
+    return todo_list
+
+def fetch_todo1() -> dict:
+    """Reads all tasks listed in the todo table
+
+    Returns:
+        A list of dictionaries
+    """
+
+    conn = db.connect()
+    query_results = conn.execute("SELECT * FROM Movies;").fetchall()
+    conn.close()
+    todo_list = []
+    x = 0
+    for result in query_results:
+        item = {
+            "id": result[0],
+            "task": result[1],
+            "status": result[2]
+        }
+        todo_list.append(item)
+        if (x > 10):
+            break
+        x = x + 1
+
     return todo_list
 
 

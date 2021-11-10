@@ -79,9 +79,10 @@ def search(searchTerm):
     return render_template("search.html", items = items)
 
 
-@app.route("/mylist.html/")
+@app.route("/mylist")
 def mylistpage():
-    return render_template("mylist.html")
+    items = db_helper.fetch_todo()
+    return render_template("mylist.html", items = items)
 
 @app.route("/search.html/")
 def searchpage():
