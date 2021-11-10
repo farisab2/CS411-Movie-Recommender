@@ -40,6 +40,7 @@
         align-items: center;
         width: 160px;
         flex-direction: row-reverse;
+        justify-content: center;
     }
 </style>
 
@@ -70,103 +71,53 @@
 
         </div>
     </nav>
-    <div class="h-100 p-5 text-white bg-dark center">
-        <div class="container .d-flex align-items-center">
             <h1 style="text-align: center;">MovieClub</h2>
                 <h5 style="text-align: center;">Look no further for the best movies!</p>
-        </div>
-    </div>
-    <div class="fluid-container">
-        <div class="row">
-            <div class="col">
-                <div class="card border-light">
+</div>
+<form action="/button"><input value="Click me"></form>
+    <div class="container" style="max-width: 75%;">
+                <div class="card h-100 p-5 text-white bg-dark rounded-3">
                     <div class="card-body">
-                        <h5 class="card-title">Latest Movies</h5>
+                        <h5 class="card-title" style="text-align: left;">Rate</h5>
+                        <div class="card">
+                            {% for movie in items %}
 
-                        <ul class="list-group" id="list-tab" role="tablist">
-                            {% for movie in movies %}
-                            <li style="width: max-width;" class="list-group-item" id="list-profile-list">
-                                <div class="card">
+                                
                                     <img class="card-img-top"
-                                        src="http://image.tmdb.org/t/p/w300{{movie.backdrop_path}}" alt="...">
+                                        src="http://image.tmdb.org/t/p/w300{{movies[0].backdrop_path}}" alt="...">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{movie.title}}</h5>
-                                        <p class="card-text">{{movie.overview}}</p>
-
-                                        <div class="star-rating" id="{{movie.id}}">
-                                            {% for i in range(10) %}
-                                            <input type="radio" name="stars" id="star-{{movie.id-i}}"
-                                                value="{{10-i}}" />
-                                            <label for="star-{{movie.id-i}}"></label>
-                                            {% endfor %}
+                                        <span>
+                                        <button type="button" class="btn btn-danger" style="float: left;">Skip</button>
+                                        <div class="btn-group" style="float: right;">
+                                        <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="float: right;">Rate</button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">10</a></li>
+                                            <li><a class="dropdown-item" href="#">9</a></li>
+                                            <li><a class="dropdown-item" href="#">8</a></li>
+                                            <li><a class="dropdown-item" href="#">7</a></li>
+                                            <li><a class="dropdown-item" href="#">6</a></li>
+                                            <li><a class="dropdown-item" href="#">5</a></li>
+                                            <li><a class="dropdown-item" href="#">4</a></li>
+                                            <li><a class="dropdown-item" href="#">3</a></li>
+                                            <li><a class="dropdown-item" href="#">2</a></li>
+                                            <li><a class="dropdown-item" href="#">1</a></li>
+                                          </ul>
                                         </div>
+                                        <h5 class="card-title" style="color: black;">{{movie.Title}}</h5>
+                                        <p class="card-text" style="color: black;">Average Rating: {{movie.averageRating}} <br>Number of Votes: {{movie.numVotes}} </p>
+
+                                    </span>
+                                        <!-- <div class="star-rating" id="{{movie.Title}}" style="justify-content: center;">
+                                            
+                                        </div> -->
+
                                     </div>
+                                    {% endfor %}
                                 </div>
-                                {% endfor %}
-                        </ul>
+                        </div>
+                        </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card border-light">
-                    <div class="card-body">
-                        <h5 class="card-title">Most Popular Movies</h5>
-
-                        <ul class="list-group" id="list-tab" role="tablist">
-                            {% for movie in movies %}
-                            <li style="width: max-width;" class="list-group-item" id="list-profile-list">
-                                <div class="card">
-                                    <img class="card-img-top"
-                                        src="http://image.tmdb.org/t/p/w300{{movie.backdrop_path}}" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{movie.title}}</h5>
-                                        <p class="card-text">{{movie.overview}}</p>
-
-                                        <div class="star-rating" id="{{movie.id}}">
-                                            {% for i in range(10) %}
-                                            <input type="radio" name="stars" id="star-{{movie.id-i}}"
-                                                value="{{10-i}}" />
-                                            <label for="star-{{movie.id-i}}"></label>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card border-light">
-                    <div class="card-body">
-                        <h5 class="card-title">Top Rated Movies</h5>
-
-                        <ul class="list-group" id="list-tab" role="tablist">
-                            {% for movie in movies %}
-                            <li style="width: max-width;" class="list-group-item" id="list-profile-list">
-                                <div class="card">
-                                    <img class="card-img-top"
-                                        src="http://image.tmdb.org/t/p/w300{{movie.backdrop_path}}" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{movie.title}}</h5>
-                                        <p class="card-text">{{movie.overview}}</p>
-
-                                        <div class="star-rating" id="{{movie.id}}">
-                                            {% for i in range(10) %}
-                                            <input type="radio" name="stars" id="star-{{movie.id-i}}"
-                                                value="{{10-i}}" />
-                                            <label for="star-{{movie.id-i}}"></label>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-
     <footer class="footer">
         <div class="container">
             <p class="text-muted" style="text-align: center;"><small>App developed for CS411 UIUC by

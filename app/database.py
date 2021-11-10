@@ -1,5 +1,6 @@
 from werkzeug.datastructures import ImmutableHeadersMixin
 from app import db
+import random
 
 def fetch_todo() -> dict:
 
@@ -112,10 +113,12 @@ def search_movies(searchTerm: str) -> dict:
         }
     ]"""
     return result
-def top_rated_movies() -> dict:
+
+
+def movies() -> dict:
     result = []
     conn = db.connect()
-    query = 'SELECT Title, releaseYear, numVotes, averageRating FROM Movies ORDER BY averageRating DESC'
+    query = 'SELECT Title, releaseYear, numVotes, averageRating FROM Movies LIMIT 10'
     query_results = conn.execute(query).fetchall()
     conn.close()
     for row in query_results:
@@ -125,4 +128,11 @@ def top_rated_movies() -> dict:
             "numVotes": row[2],
             "averageRating": row[3]
         }
-    result.append(item)
+        result.append(item)
+    random.shuffle(result)
+    return result
+
+def insert_rating(userID: str, score: float, movieID: str):
+    conn = db.connect()
+    query = 'INSERT INTO Reviews (userID, movieID, Score) VALUES ({}.{}.{}) ON DUPLICATE KEY UPDATE userID = {}'.format(userID, movieID, score, userID)
+

@@ -4,7 +4,8 @@ from app import app
 from app import database as db_helper
 import requests
 import os
-import urllib.request, json
+import urllib.request, json, urllib.parse
+import sys
 @app.route("/delete/<int:task_id>", methods=['POST'])
 def delete(task_id):
     """ recieved post requests for entry delete """
@@ -51,12 +52,16 @@ def create():
 @app.route("/")
 def homepage():
     """ returns rendered homepage """
+    items = db_helper.movies()
     #items = db_helper.top_rated_movies()
-    # url = "https://api.themoviedb.org/3/discover/movie?api_key={}&page=3".format(os.environ.get("TMDB_API_KEY"))
-    # response = urllib.request.urlopen(url)
-    # data = response.read()
-    # dict = json.loads(data)
-    return render_template("index.html")
+    dict = []
+    for item in items:
+        url = "https://api.themoviedb.org/3/search/movie?api_key=b00e0a420be5aa6607c716ffa4320dce&query={}".format(urllib.parse.quote_plus(item["Title"]))
+        response = urllib.request.urlopen(url)
+        data = response.read()
+        dict.append(json.loads(data))
+    print(dict, file=sys.stdout)
+    return render_template("index.html", items = items, movies = dict[0]["results"])
 
 @app.route("/rate")
 def ratings():
