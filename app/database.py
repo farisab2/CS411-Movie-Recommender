@@ -2,10 +2,10 @@ from werkzeug.datastructures import ImmutableHeadersMixin
 from app import db
 import random
 
-def fetch_todo() -> dict:
+def my_movies() -> dict:
 
     conn = db.connect()
-    query_results = conn.execute("SELECT * FROM Movies;").fetchall()
+    query_results = conn.execute("SELECT movieID, title, score FROM Reviews natural join Movies WHERE userID = '001';").fetchall()
     conn.close()
     todo_list = []
     x = 0
@@ -13,8 +13,8 @@ def fetch_todo() -> dict:
         print (result)
         item = {
             "id": result[0],
-            "task": result[1],
-            "status": result[2]
+            "movie": result[1],
+            "score": result[2]
         }
         todo_list.append(item)
         if (x > 10):
@@ -22,47 +22,21 @@ def fetch_todo() -> dict:
         x = x + 1
     return todo_list
 
-def fetch_todo1() -> dict:
-    """Reads all tasks listed in the todo table
-
-    Returns:
-        A list of dictionaries
-    """
-
-    conn = db.connect()
-    query_results = conn.execute("SELECT * FROM Movies;").fetchall()
-    conn.close()
-    todo_list = []
-    x = 0
-    for result in query_results:
-        item = {
-            "id": result[0],
-            "task": result[1],
-            "status": result[2]
-        }
-        todo_list.append(item)
-        if (x > 10):
-            break
-        x = x + 1
-
-    return todo_list
 
 
 def update_task_entry(task_id: int, text: str) -> None:
-    """Updates task description based on given `task_id`
-    Args:
-        task_id (int): Targeted task_id
-        text (str): Updated description
-    Returns:
-        None
+    #Updates task description based on given `task_id`
+    # Args:
+    #     task_id (int): Targeted task_id
+    #     text (str): Updated description
+    # Returns:
+    #     None
     
 
     conn = db.connect()
-    query = 'Update tasks set task = "{}" where id = {};'.format(text, task_id)
+    query = "Update Reviews set score = '{}' where movieID = {} and userID = '001';".format(text, task_id)
     conn.execute(query)
     conn.close()
-    """
-    pass
 
 
 def update_status_entry(task_id: int, text: str) -> None:
@@ -102,12 +76,12 @@ def insert_new_task(text: str) ->  int:
     return 1
 
 
-def remove_task_by_id(task_id: int) -> None:
-    """ remove entries based on task ID 
+def remove_review_by_id(movie_id: int) -> None:
+    #remove entries based on task ID 
     conn = db.connect()
-    query = 'Delete From tasks where id={};'.format(task_id)
+    query = "Delete From Reviews where movieID={} and userID='001';".format(movie_id)
     conn.execute(query)
-    conn.close() """
+    conn.close()
     pass
 
 def search_movies(searchTerm: str) -> dict:
