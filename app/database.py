@@ -113,7 +113,7 @@ def search_movies(searchTerm: str) -> dict:
     result = []
     conn = db.connect()
     searchTerm = searchTerm.replace("%20", " ")
-    query = 'SELECT Title, releaseYear, numVotes, averageRating FROM Movies WHERE Title LIKE %s LIMIT 15'
+    query = 'SELECT Title, releaseYear, numVotes, averageRating FROM Movies WHERE Title LIKE %s ORDER BY numVotes DESC LIMIT 15'
     args=['%' + searchTerm + '%']
     query_results =  conn.execute(query,args).fetchall()
     conn.close()

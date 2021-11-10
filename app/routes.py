@@ -65,7 +65,7 @@ def ratings():
     # data = response.read()
     # dict = json.loads(data)
 
-    return render_template("ratemovie.html");
+    return render_template("ratemovie.html")
 
 @app.route("/search.html/<string:searchTerm>")
 def search(searchTerm):
