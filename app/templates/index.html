@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/custom.css') }}">
     <svg style="display: none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
 </head>
+
 <style>
     .star-rating input {
         display: none;
@@ -57,13 +58,13 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/search.html/">Search</a>
+                        <a class="nav-link active" aria-current="page" href="/search">Search</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/mylist">My List</a>
+                        <a class="nav-link" href="/rate">My List</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/recommendations.html/">Recommendations</a>
+                        <a class="nav-link" href="#">Recommendations</a>
                     </li>
                 </ul>
             </div>
@@ -78,17 +79,12 @@
                 <div class="card h-100 p-5 text-white bg-dark rounded-3">
                     <div class="card-body">
                         <h5 class="card-title" style="text-align: left;">Rate</h5>
-                        <div class="card">
-                            {% for movie in items %}
-
-                                
+                        <div class="card">                                
                                     <img class="card-img-top"
                                         src="http://image.tmdb.org/t/p/w300{{movies[0].backdrop_path}}" alt="...">
                                     <div class="card-body">
-                                        <span>
-                                        <button type="button" class="btn btn-danger" style="float: left;">Skip</button>
-                                        <div class="btn-group" style="float: right;">
-                                        <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="float: right;">Rate</button>
+                                        <!-- <div class="btn-group" style="float: right;"> --> 
+                                        <!-- <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="float: right;">Rate</button>
                                         <ul class="dropdown-menu">
                                             <li><input type="submit" class="dropdown-item" name="10"value="10"></li>
                                             <li><input type="submit" class="dropdown-item" name="9"value="9"></li>
@@ -101,17 +97,29 @@
                                             <li><input type="submit" class="dropdown-item" name="2"value="2"></li>
                                             <li><input type="submit" class="dropdown-item" name="1"value="1"></li>
                                           </ul>
-                                        </div>
-                                        <h5 class="card-title" style="color: black;">{{movie.Title}}</h5>
-                                        <p class="card-text" style="color: black;">Average Rating: {{movie.averageRating}} <br>Number of Votes: {{movie.numVotes}} </p>
-
-                                    </span>
-                                        <!-- <div class="star-rating" id="{{movie.Title}}" style="justify-content: center;">
-                                            
                                         </div> -->
 
+                                        <h5 class="card-title" style="color: black;">{{items[0].Title}}</h5>
+                                        <p class="card-text" style="color: black;">Average Rating: {{items[0].averageRating}} <br>Number of Votes: {{items[0].numVotes}} </p>
+                                        <form method="POST">
+                                            <p>Rating:</p>
+                                            <p><input type="number" min="1" max="10" name="rating"></p>
+                                            <p style="display: none;"><input name="movieID" value="{{items[0].movieID}}"></p>
+                                            <p><input type ="submit" value="submit"></p>
+                                            
+                                            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+                                            <script type=text/javascript>
+                                                    $(function() {
+                                                    $('button#skip').on('click', function(e) {
+                                                        e.preventDefault()
+                                                        location.reload()
+                                                    });
+                                                    });
+                                            </script>
+                                            <button type="button" id="skip" class="btn btn-danger">Skip</button>
+                                        </form>
+                                    
                                     </div>
-                                    {% endfor %}
                                 </div>
                         </div>
                         </div>

@@ -147,7 +147,7 @@ def search_movies(searchTerm: str) -> dict:
 def movies() -> dict:
     result = []
     conn = db.connect()
-    query = 'SELECT Title, releaseYear, numVotes, averageRating FROM Movies LIMIT 10'
+    query = 'SELECT Title, releaseYear, numVotes, averageRating, movieID FROM Movies LIMIT 10'
     query_results = conn.execute(query).fetchall()
     conn.close()
     for row in query_results:
@@ -155,17 +155,22 @@ def movies() -> dict:
             "Title": row[0],
             "releaseYear": row[1],
             "numVotes": row[2],
-            "averageRating": row[3]
+            "averageRating": row[3],
+            "movieID": row[4]
         }
         result.append(item)
     random.shuffle(result)
     return result
 
-def insert_rating(userID: str, score: float, movieID: str):
+def insert_rating(score: float, movieID: str) -> None:
     conn = db.connect()
-    query = 'INSERT INTO Reviews (userID, movieID, Score) VALUES ({}.{}.{}) ON DUPLICATE KEY UPDATE userID = {}'.format(userID, movieID, score, userID)
-
-    result.append(item)
+    query = 'INSERT INTO Reviews (userID, movieID, Score) VALUES ("001","{}","{}")'.format(str(movieID), score)
+    conn.execute(query)
+    query_results = conn.execute("Select Score FROM Reviews WHERE userID = 001;")
+    query_results = [x for x in query_results]
+    task_id = query_results[0]
+    conn.close()
+    return task_id
     
 def fetchMovies()-> dict:
     result = []
