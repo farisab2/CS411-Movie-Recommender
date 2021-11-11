@@ -24,17 +24,10 @@ def my_movies() -> dict:
 
 
 
-def update_task_entry(task_id: int, text: str) -> None:
-    #Updates task description based on given `task_id`
-    # Args:
-    #     task_id (int): Targeted task_id
-    #     text (str): Updated description
-    # Returns:
-    #     None
+def update_rating(score: float, movieID: str) -> None:
     
-
     conn = db.connect()
-    query = "Update Reviews set score = '{}' where movieID = {} and userID = '001';".format(text, task_id)
+    query = 'Update Reviews set score = "{}" where movieID = "{}" and userID = "001";'.format(score, movieID)
     conn.execute(query)
     conn.close()
 
@@ -79,10 +72,10 @@ def insert_new_task(text: str) ->  int:
 def remove_review_by_id(movie_id: int) -> None:
     #remove entries based on task ID 
     conn = db.connect()
-    query = "Delete From Reviews where movieID={} and userID='001';".format(movie_id)
+    query = 'Delete From Reviews where movieID = "{}" and userID = "001";'.format(movie_id)
+    print(query)
     conn.execute(query)
     conn.close()
-    pass
 
 def search_movies(searchTerm: str) -> dict:
     result = []

@@ -4,14 +4,15 @@ from app import app
 from app import database as db_helper
 import requests
 import os
-
 import urllib.request, json, urllib.parse
 import sys
 import urllib.request, json
-@app.route("/delete/<int:movie_id>", methods=['POST'])
-def delete(movie_id):
+@app.route("/delete", methods=['POST'])
+def delete():
     """ recieved post requests for entry delete """
-    print("DELETE-" + str(movie_id))
+    data = request.get_json()
+    movie_id = data["movieID"]
+    print ("routes movieID" + str(movie_id))
     try:
         db_helper.remove_review_by_id(movie_id)
         result = {'success': True, 'response': 'Removed task'}
@@ -21,21 +22,17 @@ def delete(movie_id):
     return jsonify(result)
 
 
-@app.route("/edit/<int:movie_id>", methods=['POST'])
-def update(movie_id):
+@app.route("/edit", methods=['POST'])
+def update():
     """ recieved post requests for entry updates """
-    print ("task ID " + str(movie_id))
-
     data = request.get_json()
-    print ("EDIT DATA")
+    movie_id = data["movieID"]
+    score = data["score"]
     print (data)
 
     try:
-        if "description" in data:
-            db_helper.update_task_entry(movie_id, data["description"])
-            result = {'success': True, 'response': 'Task Updated'}
-        else:
-            result = {'success': True, 'response': 'Nothing Updated'}
+        db_helper.update_rating(score, movie_id)
+        result = {'success': True, 'response': 'Task Updated'}
     except:
         result = {'success': False, 'response': 'Something went wrong'}
 

@@ -19,15 +19,16 @@ $(document).ready(function () {
     })
 
     $('#submit-change').click(function () {
-        const tID = $('#score-form-display').attr('movieID');
+        const movieID = $('#score-form-display').attr('movieID');
 
         console.log($('#edit-modal').find('.form-control').val())
         $.ajax({
             type: 'POST',
-            url: tID ? '/edit/' + tID : '/create',
+            url:'/edit',
             contentType: 'application/json;charset=UTF-8',
             data: JSON.stringify({
-                'description': $('#edit-modal').find('.form-control').val()
+                'score': $('#edit-modal').find('.form-control').val(),
+                'movieID': movieID
             }),
             success: function (res) {
                 console.log(res.response)
@@ -43,7 +44,11 @@ $(document).ready(function () {
         const remove = $(this)
         $.ajax({
             type: 'POST',
-            url: '/delete/' + remove.data('source'),
+            url: '/delete',
+            contentType: 'application/json;charset=UTF-8',
+            data: JSON.stringify({
+                'movieID': remove.data('source'),
+            }),
             success: function (res) {
                 console.log(res.response)
                 location.reload();
