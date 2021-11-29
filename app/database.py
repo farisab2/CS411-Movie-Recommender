@@ -104,7 +104,7 @@ def fetchMovies()-> dict:
 def fetchMoviesD()-> dict:
     result = []
     conn = db.connect()
-    query = 'SELECT * FROM Movies WHERE movieID IN (SELECT DISTINCT di.movieID FROM DirectorMapping di WHERE di.Director in (SELECT d.Director FROM DirectorMapping d INNER JOIN Reviews r ON d.movieID = r.movieID GROUP BY d.Director HAVING AVG(r.score) > 6)) ORDER BY averageRating DESC LIMIT 15'
+    query = 'SELECT * FROM Movies WHERE movieID IN (SELECT DISTINCT di.movieID FROM DirectorMapping di WHERE di.personID in (SELECT d.personID FROM DirectorMapping d INNER JOIN Reviews r ON d.movieID = r.movieID GROUP BY d.personID HAVING AVG(r.score) > 6)) ORDER BY averageRating DESC LIMIT 15'
     query_results = conn.execute(query).fetchall()
     conn.close()
     for row in query_results:
