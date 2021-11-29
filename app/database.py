@@ -8,20 +8,15 @@ def my_movies() -> dict:
     query_results = conn.execute("SELECT movieID, title, score FROM Reviews natural join Movies WHERE userID = '001';").fetchall()
     conn.close()
     todo_list = []
-    x = 0
     for result in query_results:
-        print (result)
+        #print (result)
         item = {
             "id": result[0],
             "movie": result[1],
             "score": result[2]
         }
         todo_list.append(item)
-        if (x > 10):
-            break
-        x = x + 1
     return todo_list
-
 
 
 def update_rating(score: float, movieID: str) -> None:
@@ -31,49 +26,11 @@ def update_rating(score: float, movieID: str) -> None:
     conn.execute(query)
     conn.close()
 
-
-def update_status_entry(task_id: int, text: str) -> None:
-    """Updates task status based on given `task_id`
-    Args:
-        task_id (int): Targeted task_id
-        text (str): Updated status
-    Returns:
-        None
-    
-
-    conn = db.connect()
-    query = 'Update tasks set status = "{}" where id = {};'.format(text, task_id)
-    conn.execute(query)
-    conn.close() """
-    pass
-
-
-def insert_new_task(text: str) ->  int:
-    """Insert new task to todo table.
-    Args:
-        text (str): Task description
-    Returns: The task ID for the inserted entry
-    
-
-    conn = db.connect()
-    query = 'Insert Into tasks (task, status) VALUES ("{}", "{}");'.format(
-        text, "Todo")
-    conn.execute(query)
-    query_results = conn.execute("Select LAST_INSERT_ID();")
-    query_results = [x for x in query_results]
-    task_id = query_results[0][0]
-    conn.close()
-
-    return task_id """
-    pass
-    return 1
-
-
 def remove_review_by_id(movie_id: int) -> None:
     #remove entries based on task ID 
     conn = db.connect()
     query = 'Delete From Reviews where movieID = "{}" and userID = "001";'.format(movie_id)
-    print(query)
+    #print(query)
     conn.execute(query)
     conn.close()
 
@@ -92,22 +49,7 @@ def search_movies(searchTerm: str) -> dict:
             "numVotes": row[2],
             "averageRating": row[3]
         }
-        result.append(item) 
-    """
-    result = [
-        {
-            "Title": "Shrek",
-            "yearReleased": "2001",
-            "numVotes": 1010231,
-            "averageRating": 9.4
-        },
-        {
-            "Title": "Wall-E",
-            "yearReleased": "2008",
-            "numVotes": 93854,
-            "averageRating": 7.9
-        }
-    ]"""
+        result.append(item)
     return result
 
 
@@ -162,7 +104,7 @@ def fetchMovies()-> dict:
 def fetchMoviesD()-> dict:
     result = []
     conn = db.connect()
-    query = 'SELECT * FROM Movies WHERE movieID IN (SELECT DISTINCT di.movieID FROM DirectorMapping di WHERE di.Director in (SELECT d.Director FROM DirectorMapping d INNER JOIN Reviews r ON d.movieID = r.movieID GROUP BY d.Director HAVING AVG(r.score) > 6)) ORDER BY averageRating DESC'
+    query = 'SELECT * FROM Movies WHERE movieID IN (SELECT DISTINCT di.movieID FROM DirectorMapping di WHERE di.Director in (SELECT d.Director FROM DirectorMapping d INNER JOIN Reviews r ON d.movieID = r.movieID GROUP BY d.Director HAVING AVG(r.score) > 6)) ORDER BY averageRating DESC LIMIT 15'
     query_results = conn.execute(query).fetchall()
     conn.close()
     for row in query_results:

@@ -1,4 +1,5 @@
 """ Specifies routing for the application"""
+from typing import ForwardRef
 from flask import render_template, request, jsonify
 from app import app
 from app import database as db_helper
@@ -12,7 +13,7 @@ def delete():
     """ recieved post requests for entry delete """
     data = request.get_json()
     movie_id = data["movieID"]
-    print ("routes movieID" + str(movie_id))
+    #print ("routes movieID" + str(movie_id))
     try:
         db_helper.remove_review_by_id(movie_id)
         result = {'success': True, 'response': 'Removed task'}
@@ -28,7 +29,7 @@ def update():
     data = request.get_json()
     movie_id = data["movieID"]
     score = data["score"]
-    print (data)
+    # print (data)
 
     try:
         db_helper.update_rating(score, movie_id)
@@ -80,7 +81,7 @@ def ratings():
     # data = response.read()
     # dict = json.loads(data)
 
-    return render_template("ratemovie.html");
+    return render_template("ratemovie.html")
 
 @app.route("/search.html/<string:searchTerm>")
 def search(searchTerm):
