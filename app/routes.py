@@ -102,10 +102,30 @@ def searchpage():
 @app.route("/recommendations.html/")
 def recommendationspage():
     items = db_helper.fetchMovies()
+    for item in items:
+        url = "https://api.themoviedb.org/3/search/movie?api_key=b00e0a420be5aa6607c716ffa4320dce&query={}".format(urllib.parse.quote_plus(item["Title"]))
+        response = urllib.request.urlopen(url)
+        data = response.read()
+        item["picture"] = json.loads(data)
     return render_template("recommendations.html", items=items)
 
 @app.route("/recommendations2.html/")
 def recommendationspage2():
     items = db_helper.fetchMoviesD()
+    for item in items:
+        url = "https://api.themoviedb.org/3/search/movie?api_key=b00e0a420be5aa6607c716ffa4320dce&query={}".format(urllib.parse.quote_plus(item["Title"]))
+        response = urllib.request.urlopen(url)
+        data = response.read()
+        item["picture"] = json.loads(data)
     return render_template("recommendations2.html", items = items)
+
+@app.route("/recommendations3.html/")
+def recommendationspage3():
+    items = db_helper.fetchMoviesDT()
+    for item in items:
+        url = "https://api.themoviedb.org/3/search/movie?api_key=b00e0a420be5aa6607c716ffa4320dce&query={}".format(urllib.parse.quote_plus(item["Title"]))
+        response = urllib.request.urlopen(url)
+        data = response.read()
+        item["picture"] = json.loads(data)
+    return render_template("recommendations3.html", items = items)
 

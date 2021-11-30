@@ -118,3 +118,23 @@ def fetchMoviesD()-> dict:
         }
         result.append(item)
     return result
+
+def fetchMoviesDT()-> dict:
+    result = []
+    conn = db.connect()
+    query = "SELECT * FROM Movies Natural JOIN DirectorMapping Natural JOin Directors WHERE movieID IN (SELECT DISTINCT di.movieID FROM DirectorMapping di WHERE di.personID in (SELECT d.personID FROM DirectorMapping d Natural JOIN Directors dd INNER JOIN Reviews r ON d.movieID = r.movieID WHERE dd.tierStatus = 'Gold')) ORDER BY averageRating DESC LIMIT 15"
+    query_results = conn.execute(query).fetchall()
+    conn.close()
+    for row in query_results:
+        item = {
+            "movieID": row[1],
+            "Title": row[2],
+            "releaseYear": row[3],
+            "averageRating": row[4],
+            "NumVotes": row[5],
+            "firstName" : row[6],
+            "lastName" : row[7]
+            
+        }
+        result.append(item)
+    return result

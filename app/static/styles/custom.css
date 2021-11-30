@@ -180,9 +180,18 @@ a.button#nextprev:hover {
   }
   .leaderboard__picture {
     max-width: 100%;
-    width: 60px;
-    border-radius: 50%;
+    width: 75%;
+    border-radius: 70%;
     box-shadow: 0 0 0 10px #ebeef3, 0 0 0 22px #f3f4f6;
+  }
+  .leaderboard__name span {
+    
+    color: #D5AD6D; /*if no support for background-clip*/
+    background: -webkit-linear-gradient(transparent, transparent),
+    -webkit-linear-gradient(top, rgba(213,173,109,1) 0%, rgba(213,173,109,1) 26%, rgba(226,186,120,1) 35%, rgba(163,126,67,1) 45%, rgba(145,112,59,1) 61%, rgba(213,173,109,1) 100%);
+    background: -o-linear-gradient(transparent, transparent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   .leaderboard__name {
     color: #979cb0;
@@ -191,6 +200,7 @@ a.button#nextprev:hover {
     letter-spacing: 0.64px;
     margin-left: 12px;
   }
+
   .leaderboard__value {
     color: #35d8ac;
     font-weight: 700;

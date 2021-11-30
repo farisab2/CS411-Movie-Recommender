@@ -71,11 +71,14 @@
     </nav>
     <div class="p-1 text-white bg-dark center">
         <div class="container .d-flex align-items-center">
-            <h1 style="text-align: center; padding-bottom: 2%;">Recommendations</h2>
+            <h1 style="text-align: center;">Recommendations</h2>
                 <div style="text-align: center;">
                     <a href="/recommendations.html/" id = "recsActive" class="button">Top Movie Recs</a>
                     <span id = "recs" class="spacing">
-                        <a style = "margin-bottom: 2.5%;"href="/recommendations2.html/" id = "recsInactive" class="button">Director Based Recs</a>
+                        <a href="/recommendations2.html/" id = "recsInactive" class="button">Director Based Recs</a>
+                    </span>
+                    <span id = "recs" class="spacing">
+                        <a href="/recommendations3.html/" id = "recsInactive" class="button">Gold Tier Directors</a>
                     </span>
                 </div>
  
@@ -105,7 +108,7 @@
 
             {% for item in items %}
                 <article class="leaderboard__profile align-items-center">
-                <img src="https://png.pngtree.com/png-clipart/20210115/ourmid/pngtree-video-camera-movie-clipart-cartoon-style-png-image_2736279.jpg" alt="Movie" class="leaderboard__picture">
+                <img src="http://image.tmdb.org/t/p/w300{{item.picture.results[0].backdrop_path}}" alt="Movie" class="leaderboard__picture">
                 <span class="leaderboard__name">"{{item.Title}}"</span>
                 <span class="leaderboard__value">{{item.averageRating}}<span>/10</span></span>
             </article>

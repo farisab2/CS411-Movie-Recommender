@@ -77,6 +77,9 @@
                     <span id = "recs" class="spacing">
                         <a href="/recommendations2.html/" id = "recsActive" class="button">Director Based Recs</a>
                     </span>
+                    <span id = "recs" class="spacing">
+                        <a href="/recommendations3.html/" id = "recsInactive" class="button">Gold Tier Directors</a>
+                    </span>
                 </div>
  
         </div>
@@ -101,8 +104,8 @@
 
             {% for item in items %}
                 <article class="leaderboard__profile align-items-center">
-                <img src="https://png.pngtree.com/png-clipart/20210115/ourmid/pngtree-video-camera-movie-clipart-cartoon-style-png-image_2736279.jpg" alt="Movie" class="leaderboard__picture">
-                <span class="leaderboard__name">"{{item.Title}}"</span>
+                    <img src="http://image.tmdb.org/t/p/w300{{item.picture.results[0].backdrop_path}}" alt="Movie" class="leaderboard__picture">
+                    <span class="leaderboard__name">"{{item.Title}}"</span>
                 <span class="leaderboard__value">{{item.averageRating}}<span>/10</span></span>
             </article>
             {% endfor %}
