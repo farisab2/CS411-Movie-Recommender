@@ -55,7 +55,7 @@ def homepage():
     if request.method == 'POST':
         rating = request.form["rating"]
         movieid = request.form["movieID"]
-        db_helper.insert_rating(rating, movieid)
+        updatedscore = db_helper.insert_rating(rating, movieid)
         dict = []
         for item in items:
             url = "https://api.themoviedb.org/3/search/movie?api_key=b00e0a420be5aa6607c716ffa4320dce&query={}".format(urllib.parse.quote_plus(item["Title"]))
@@ -63,7 +63,7 @@ def homepage():
             data = response.read()
             dict.append(json.loads(data))
         
-        return render_template("index.html", items = items, movies = dict[0]["results"])
+        return render_template("index.html", items = items, movies = dict[0]["results"], score = updatedscore)
     else:
         dict = []
         for item in items:
@@ -74,14 +74,14 @@ def homepage():
         
         return render_template("index.html", items = items, movies = dict[0]["results"])
 
-@app.route("/<rating>")
-def ratings():
-    # url = "https://api.themoviedb.org/3/discover/movie?api_key={}".format(os.environ.get("TMDB_API_KEY"))
-    # response = urllib.request.urlopen(url)
-    # data = response.read()
-    # dict = json.loads(data)
+# @app.route("/<rating>")
+# def ratings():
+#     # url = "https://api.themoviedb.org/3/discover/movie?api_key={}".format(os.environ.get("TMDB_API_KEY"))
+#     # response = urllib.request.urlopen(url)
+#     # data = response.read()
+#     # dict = json.loads(data)
 
-    return render_template("ratemovie.html")
+#     return render_template("ratemovie.html");
 
 @app.route("/search.html/<string:searchTerm>")
 def search(searchTerm):

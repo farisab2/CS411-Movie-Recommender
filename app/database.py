@@ -56,9 +56,10 @@ def search_movies(searchTerm: str) -> dict:
 def movies() -> dict:
     result = []
     conn = db.connect()
-    query = 'SELECT Title, releaseYear, numVotes, averageRating, movieID FROM Movies LIMIT 10'
+    query = 'SELECT Title, releaseYear, numVotes, averageRating, movieID FROM Movies LIMIT 20'
     query_results = conn.execute(query).fetchall()
     conn.close()
+    random.shuffle(query_results)
     for row in query_results:
         item = {
             "Title": row[0],
@@ -68,14 +69,13 @@ def movies() -> dict:
             "movieID": row[4]
         }
         result.append(item)
-    random.shuffle(result)
     return result
 
 def insert_rating(score: float, movieID: str) -> None:
     conn = db.connect()
-    query = 'INSERT IGNORE INTO Reviews (userID, movieID, Score) VALUES ("001","{}","{}")'.format(str(movieID), score)
+    query = 'INSERT INTO Reviews (userID, movieID, score) VALUES ("001","{}","{}") ON DUPLICATE KEY UPDATE score = {}'.format(str(movieID), score, score)
     conn.execute(query)
-    query_results = conn.execute("Select Score FROM Reviews WHERE userID = 001;")
+    query_results = conn.execute("Select Score FROM Reviews WHERE userID = 002;")
     query_results = [x for x in query_results]
     task_id = query_results[0]
     conn.close()
