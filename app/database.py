@@ -73,7 +73,7 @@ def movies() -> dict:
 
 def insert_rating(score: float, movieID: str) -> None:
     conn = db.connect()
-    query = 'INSERT INTO Reviews (userID, movieID, Score) VALUES ("001","{}","{}")'.format(str(movieID), score)
+    query = 'INSERT IGNORE INTO Reviews (userID, movieID, Score) VALUES ("001","{}","{}")'.format(str(movieID), score)
     conn.execute(query)
     query_results = conn.execute("Select Score FROM Reviews WHERE userID = 001;")
     query_results = [x for x in query_results]
@@ -84,7 +84,7 @@ def insert_rating(score: float, movieID: str) -> None:
 def fetchMovies()-> dict:
     result = []
     conn = db.connect()
-    query = 'SELECT r.userID, r.movieID, m.Title, r.Score, m.releaseYear, m.averageRating, m.NumVotes FROM Reviews AS r INNER JOIN Movies AS m ON r.movieID = m.movieID WHERE (r.UserID = "001" AND r.Score > 7) AND r.movieID IN (SELECT movieID FROM Reviews GROUP BY movieID HAVING AVG(Score) > 7) ORDER BY m.averageRating DESC'
+    query = 'SELECT r.userID, r.movieID, m.Title, r.Score, m.releaseYear, m.averageRating, m.NumVotes FROM Reviews AS r JOIN Movies AS m ON r.movieID = m.movieID WHERE (r.UserID = "001" AND r.Score > 7) AND r.movieID IN (SELECT movieID FROM Reviews GROUP BY movieID HAVING AVG(Score) > 7) ORDER BY m.averageRating DESC'
     query_results = conn.execute(query).fetchall()
     conn.close()
     for row in query_results:
@@ -122,7 +122,7 @@ def fetchMoviesD()-> dict:
 def fetchMoviesDT()-> dict:
     result = []
     conn = db.connect()
-    query = "SELECT * FROM Movies Natural JOIN DirectorMapping Natural JOin Directors WHERE movieID IN (SELECT DISTINCT di.movieID FROM DirectorMapping di WHERE di.personID in (SELECT d.personID FROM DirectorMapping d Natural JOIN Directors dd INNER JOIN Reviews r ON d.movieID = r.movieID WHERE dd.tierStatus = 'Gold')) ORDER BY averageRating DESC LIMIT 15"
+    query = "SELECT * FROM Movies NATURAL JOIN DirectorMapping NATURAL JOIN (SELECT personID, SUM(score) AS totalPoints FROM Metrics GROUP BY personID) a NATURAL JOIN Directors WHERE movieID IN (SELECT movieID FROM DirectorMapping WHERE personID IN (SELECT di.personID FROM DirectorMapping di NATURAL JOIN Directors d JOIN Reviews r ON di.movieID = r.movieID WHERE d.tierStatus = 'Gold')) AND movieID NOT IN (SELECT movieID FROM Reviews WHERE userID = '001') ORDER BY a.totalPoints DESC LIMIT 15"
     query_results = conn.execute(query).fetchall()
     conn.close()
     for row in query_results:
@@ -132,8 +132,8 @@ def fetchMoviesDT()-> dict:
             "releaseYear": row[3],
             "averageRating": row[4],
             "NumVotes": row[5],
-            "firstName" : row[6],
-            "lastName" : row[7]
+            "firstName" : row[7],
+            "lastName" : row[8]
             
         }
         result.append(item)
