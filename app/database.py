@@ -75,27 +75,18 @@ def insert_rating(score: float, movieID: str) -> None:
     conn = db.connect()
     query = 'INSERT INTO Reviews (userID, movieID, score) VALUES ("001","{}","{}") ON DUPLICATE KEY UPDATE score = {}'.format(str(movieID), score, score)
     conn.execute(query)
-    query_results = conn.execute("Select Score FROM Reviews WHERE userID = 002;")
-    query_results = [x for x in query_results]
-    task_id = query_results[0]
     conn.close()
-    return task_id
     
 def fetchMovies()-> dict:
     result = []
     conn = db.connect()
-    query = 'SELECT r.userID, r.movieID, m.Title, r.Score, m.releaseYear, m.averageRating, m.NumVotes FROM Reviews AS r JOIN Movies AS m ON r.movieID = m.movieID WHERE (r.UserID = "001" AND r.Score > 7) AND r.movieID IN (SELECT movieID FROM Reviews GROUP BY movieID HAVING AVG(Score) > 7) ORDER BY m.averageRating DESC'
+    query = 'SELECT Title, averageRating FROM Movies WHERE movieID NOT IN (SELECT movieID FROM Reviews WHERE userID = "001") AND movieID IN (SELECT movieID FROM Reviews GROUP BY movieID HAVING AVG(score) > 7) ORDER BY averageRating DESC LIMIT 15'
     query_results = conn.execute(query).fetchall()
     conn.close()
     for row in query_results:
         item = {
-            "userID": row[0],
-            "movieID": row[1],
-            "Title": row[2],
-            "Score": row[3],
-            "releaseYear": row[4],
-            "averageRating": row[5],
-            "NumVotes": row[6]
+            "Title": row[0],
+            "averageRating": row[1]
             
         }
         result.append(item)
@@ -104,7 +95,7 @@ def fetchMovies()-> dict:
 def fetchMoviesD()-> dict:
     result = []
     conn = db.connect()
-    query = 'SELECT * FROM Movies WHERE movieID IN (SELECT DISTINCT di.movieID FROM DirectorMapping di WHERE di.personID in (SELECT d.personID FROM DirectorMapping d INNER JOIN Reviews r ON d.movieID = r.movieID GROUP BY d.personID HAVING AVG(r.score) > 6)) ORDER BY averageRating DESC LIMIT 15'
+    query = 'SELECT * FROM Movies WHERE movieID IN (SELECT DISTINCT di.movieID FROM DirectorMapping di WHERE di.personID IN (SELECT d.personID FROM DirectorMapping d NATURAL JOIN Reviews r GROUP BY d.personID HAVING AVG(r.score) > 6)) AND movieID NOT IN (SELECT movieID FROM Reviews WHERE userID = "001") ORDER BY averageRating DESC LIMIT 15'
     query_results = conn.execute(query).fetchall()
     conn.close()
     for row in query_results:
